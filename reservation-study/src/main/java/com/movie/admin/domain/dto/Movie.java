@@ -12,8 +12,14 @@ public class Movie {
     private Long id;
     private String title;
     private String director;
-    private String cast;
+    private String actor;
     private String description;
     private Long price;
     private LocalDateTime insertDate;
+
+    public boolean registerAvailable() {
+        return this.insertDate
+                .isBefore(LocalDateTime.now()
+                        .minusDays(1));
+    }
 }

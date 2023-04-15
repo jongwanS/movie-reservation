@@ -14,7 +14,9 @@ public class AdminController {
     private final MovieService movieService;
 
     @PostMapping("/movie/register")
-    public ResponseEntity<?> movieRegister(@RequestBody MovieRegisterRequest movieRegisterRequest){
+    public ResponseEntity<?> movieRegister(
+            @RequestBody MovieRegisterRequest movieRegisterRequest
+    ){
         movieRegisterRequest.validate();
 
         movieService.registerMovie(movieRegisterRequest);
@@ -23,9 +25,10 @@ public class AdminController {
     }
 
     @PostMapping("/movie/timetable/register")
-    public ResponseEntity<?> timetableRegister(){
-
-        movieService.registerMoiveTimeTable();
+    public ResponseEntity<?> timetableRegister(
+        @RequestBody MovieTimetableRegisterRequest movieTimetableRegisterRequest
+    ) throws Exception {
+        movieService.registerMovieTimeTable(movieTimetableRegisterRequest);
         return ResponseEntity.ok().body("영화 상영 시간 등록 성공");
     }
 }

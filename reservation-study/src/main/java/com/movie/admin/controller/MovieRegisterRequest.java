@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class MovieRegisterRequest {
     private String title;
     private String director;
-    private String cast;
+    private String actor;
     private String description;
     private Long price;
 

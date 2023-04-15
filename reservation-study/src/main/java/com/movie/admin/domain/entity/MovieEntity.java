@@ -29,19 +29,15 @@ public class MovieEntity {
     @Column(name = "director")
     private String director;
     @Column(name = "actor")
-    private String cast;
+    private String actor;
     @Column(name = "description")
     private String description;
     @Column(name = "price")
     private Long price;
-    @Column(name = "INSERT_DATE")
+    @Column(name = "insert_date")
     private LocalDateTime insertDate;
-
-    public boolean registerAvailable() {
-        return this.insertDate
-                .isBefore(LocalDateTime.now()
-                        .minusDays(1));
-    }
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 
     public Movie toDto(MovieEntity movieEntity){
 
