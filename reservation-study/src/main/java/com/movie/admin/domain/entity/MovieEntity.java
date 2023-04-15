@@ -40,9 +40,12 @@ public class MovieEntity {
     private LocalDateTime updateDate;
 
     public Movie toDto(MovieEntity movieEntity){
-
         return Movie.builder()
-
                 .build();
+    }
+    public boolean registerAvailable() {
+        return this.insertDate
+                .isBefore(LocalDateTime.now()
+                        .minusDays(1));
     }
 }
