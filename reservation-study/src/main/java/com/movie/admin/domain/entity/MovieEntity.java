@@ -34,6 +34,8 @@ public class MovieEntity {
     private String description;
     @Column(name = "price")
     private Long price;
+    @Column(name = "duration")
+    private Long second;
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
     @Column(name = "update_date")
