@@ -1,4 +1,4 @@
-package com.movie.order.domain;
+package com.jwcinema.order.domain;
 
 import lombok.Builder;
 import lombok.Getter;

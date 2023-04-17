@@ -1,6 +1,5 @@
-package com.movie.admin.domain.entity;
+package com.jwcinema.movie.domain;
 
-import com.movie.admin.domain.dto.Movie;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,31 +22,17 @@ public class MovieEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MOVIE_SEQ_GENERATOR")
     private Long id;
-
     @Column(name = "title")
     private String title;
-    @Column(name = "director")
-    private String director;
-    @Column(name = "actor")
-    private String actor;
+    @Column(name = "playtime")
+    private Integer playtime;
     @Column(name = "description")
     private String description;
-    @Column(name = "price")
-    private Long price;
-    @Column(name = "duration")
-    private Long second;
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
-    @Column(name = "update_date")
-    private LocalDateTime updateDate;
 
     public Movie toDto(MovieEntity movieEntity){
         return Movie.builder()
                 .build();
-    }
-    public boolean registerAvailable() {
-        return this.insertDate
-                .isBefore(LocalDateTime.now()
-                        .minusDays(1));
     }
 }
