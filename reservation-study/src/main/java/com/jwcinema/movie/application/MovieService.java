@@ -14,14 +14,14 @@ public class MovieService {
 
     private final MovieEntityRepository movieEntityRepository;
 
-    public void registerMovie(MovieRegisterRequest movieRegisterRequest) {
+    public MovieEntity registerMovie(MovieRegisterRequest movieRegisterRequest) {
         MovieEntity movieEntity = MovieEntity.builder()
                 .title(movieRegisterRequest.getTitle())
                 .playtime(movieRegisterRequest.getPlaytime())
-                .description(movieRegisterRequest.getDescription().orElse(null))
+                .description(movieRegisterRequest.getDescription())
                 .insertDate(LocalDateTime.now())
                 .build();
-        movieEntityRepository.save(movieEntity);
+        return movieEntityRepository.save(movieEntity);
     }
 
 }

@@ -10,15 +10,15 @@ import java.util.Optional;
 public class MovieRegisterRequest {
     private String title;
     private Integer playtime;
-    private Optional<String> description;
+    private String description;
 
     public void validate() throws Exception {
         if(ObjectUtils.isEmpty(title)){
-            throw new Exception();
+            throw new Exception("title 은 필수값");
         }
         if(ObjectUtils.isEmpty(playtime)){
             //오류
-            throw new Exception();
+            throw new Exception("playtime 필수값");
         }
     }
 }

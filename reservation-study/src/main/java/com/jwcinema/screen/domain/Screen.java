@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Screen {
     private Long id;
     private Movie movie;
+    private Integer seatLimit;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 }
