@@ -1,11 +1,7 @@
 package com.jwcinema.admin.domain;
 
-import com.jwcinema.movie.domain.Movie;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 public class MovieTest {
 
