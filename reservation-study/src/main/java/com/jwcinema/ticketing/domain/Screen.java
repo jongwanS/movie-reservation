@@ -1,6 +1,5 @@
-package com.jwcinema.screen.domain;
+package com.jwcinema.ticketing.domain;
 
-import com.jwcinema.movie.domain.Movie;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,8 +9,9 @@ import java.time.LocalDateTime;
 @Builder
 public class Screen {
     private Long id;
-    private Movie movie;
+    private Long movieId;
     private Integer seatLimit;
+    private Integer seatReservedCount;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 }

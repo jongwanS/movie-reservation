@@ -1,5 +1,6 @@
 package com.jwcinema.movie.domain;
 
+import com.jwcinema.ticketing.domain.Movie;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,15 @@ public class MovieEntity {
 
     public Movie toDto(MovieEntity movieEntity){
         return Movie.builder()
+                .build();
+    }
+
+    public Movie toMovie() {
+        return Movie.builder()
+                .id(this.id)
+                .title(this.title)
+                .playtime(this.playtime)
+                .description(this.description)
                 .build();
     }
 }

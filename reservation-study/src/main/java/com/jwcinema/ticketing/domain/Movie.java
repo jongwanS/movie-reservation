@@ -1,4 +1,4 @@
-package com.jwcinema.movie.domain;
+package com.jwcinema.ticketing.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +10,7 @@ import java.time.LocalDateTime;
 public class Movie {
     private Long id;
     private String title;
-    private Long playtime;
+    private Integer playtime;
     private String description;
     private LocalDateTime insertDate;
-
-    public boolean registerAvailable() {
-        return this.insertDate
-                .isBefore(LocalDateTime.now()
-                        .minusDays(1));
-    }
 }
