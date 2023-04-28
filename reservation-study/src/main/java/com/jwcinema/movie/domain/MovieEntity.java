@@ -1,8 +1,10 @@
 package com.jwcinema.movie.domain;
 
-import com.jwcinema.ticketing.domain.Movie;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -31,18 +33,4 @@ public class MovieEntity {
     private String description;
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
-
-    public Movie toDto(MovieEntity movieEntity){
-        return Movie.builder()
-                .build();
-    }
-
-    public Movie toMovie() {
-        return Movie.builder()
-                .id(this.id)
-                .title(this.title)
-                .playtime(this.playtime)
-                .description(this.description)
-                .build();
-    }
 }

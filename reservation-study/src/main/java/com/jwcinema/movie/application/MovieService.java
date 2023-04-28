@@ -1,6 +1,6 @@
 package com.jwcinema.movie.application;
 
-import com.jwcinema.movie.controller.MovieRegisterRequest;
+import com.jwcinema.movie.controller.dto.MovieRegisterRequest;
 import com.jwcinema.movie.domain.MovieEntity;
 import com.jwcinema.movie.infra.MovieEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +14,14 @@ public class MovieService {
 
     private final MovieEntityRepository movieEntityRepository;
 
-    public MovieEntity registerMovie(MovieRegisterRequest movieRegisterRequest) {
-        MovieEntity movieEntity = MovieEntity.builder()
+    public void register(MovieRegisterRequest movieRegisterRequest) {
+        MovieEntity movie = MovieEntity.builder()
                 .title(movieRegisterRequest.getTitle())
                 .playtime(movieRegisterRequest.getPlaytime())
                 .description(movieRegisterRequest.getDescription())
                 .insertDate(LocalDateTime.now())
                 .build();
-        return movieEntityRepository.save(movieEntity);
-    }
 
+        movieEntityRepository.save(movie);
+    }
 }

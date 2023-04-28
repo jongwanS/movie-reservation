@@ -1,12 +1,16 @@
-package com.jwcinema.movie.controller;
+package com.jwcinema.movie.controller.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.ObjectUtils;
-
-import java.util.Optional;
 
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MovieRegisterRequest {
     private String title;
     private Integer playtime;
@@ -14,11 +18,10 @@ public class MovieRegisterRequest {
 
     public void validate() throws Exception {
         if(ObjectUtils.isEmpty(title)){
-            throw new Exception("title 은 필수값");
+            throw new IllegalArgumentException("title 은 필수값");
         }
         if(ObjectUtils.isEmpty(playtime)){
-            //오류
-            throw new Exception("playtime 필수값");
+            throw new IllegalArgumentException("playtime 필수값");
         }
     }
 }
