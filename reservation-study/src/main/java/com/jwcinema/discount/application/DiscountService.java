@@ -8,7 +8,6 @@ import com.jwcinema.discount.domain.PeriodDiscountEntity;
 import com.jwcinema.discount.infra.DiscountPolicyEntityRepository;
 import com.jwcinema.discount.infra.OrderDiscountEntityRepository;
 import com.jwcinema.discount.infra.PeriodDiscountEntityRepository;
-import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
