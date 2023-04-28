@@ -1,18 +1,22 @@
-package com.jwcinema.screen.controller;
+package com.jwcinema.screen.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ScreenRegisterRequest {
 
     private Long movieId;
     private Long price;
-    private Optional<Integer> seatLimit;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime startAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -20,16 +24,16 @@ public class ScreenRegisterRequest {
 
     public void validate() throws Exception {
         if(ObjectUtils.isEmpty(movieId)){
-            throw new Exception("movieId 는 필수값");
+            throw new IllegalArgumentException("movieId 는 필수값");
         }
         if(ObjectUtils.isEmpty(price)){
-            throw new Exception("price 는 필수값");
+            throw new IllegalArgumentException("price 는 필수값");
         }
         if(ObjectUtils.isEmpty(startAt)){
-            throw new Exception("startAt 는 필수값");
+            throw new IllegalArgumentException("startAt 는 필수값");
         }
         if(ObjectUtils.isEmpty(endAt)){
-            throw new Exception("endAt 는 필수값");
+            throw new IllegalArgumentException("endAt 는 필수값");
         }
     }
 }
