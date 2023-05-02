@@ -2,7 +2,7 @@ package com.jwcinema.screen.controller;
 
 import com.jwcinema.screen.application.ScreenService;
 import com.jwcinema.screen.controller.dto.ScreenRegisterRequest;
-import com.jwcinema.screen.domain.ScreenEntity;
+import com.jwcinema.screen.domain.Screen;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ public class ScreenController {
     ) {
         try {
             screenRegisterRequest.validate();
-            screenService.register(screenRegisterRequest);
-            return ResponseEntity.ok().body("상영등록 성공");
+            Screen screen = screenService.register(screenRegisterRequest);
+            return ResponseEntity.ok().body(screen);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

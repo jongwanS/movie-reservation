@@ -18,10 +18,10 @@ public class MovieRegisterRequest {
 
     public void validate() throws Exception {
         if(ObjectUtils.isEmpty(title)){
-            throw new IllegalArgumentException("title 은 필수값");
+            throw new MovieRegisterException("title 은 필수값");
         }
         if(ObjectUtils.isEmpty(playtime)){
-            throw new IllegalArgumentException("playtime 필수값");
+            throw new MovieRegisterException("playtime 필수값");
         }
     }
 }

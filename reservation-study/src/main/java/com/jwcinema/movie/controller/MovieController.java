@@ -2,6 +2,7 @@ package com.jwcinema.movie.controller;
 
 import com.jwcinema.movie.application.MovieService;
 import com.jwcinema.movie.controller.dto.MovieRegisterRequest;
+import com.jwcinema.movie.domain.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class MovieController {
     ) {
         try {
             movieRegisterRequest.validate();
-            movieService.register(movieRegisterRequest);
-            return ResponseEntity.ok().body("영화등록 성공");
+            Movie movie = movieService.register(movieRegisterRequest);
+            return ResponseEntity.ok().body(movie);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

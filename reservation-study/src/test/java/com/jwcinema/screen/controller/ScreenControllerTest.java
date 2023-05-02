@@ -27,15 +27,14 @@ class ScreenControllerTest {
     @MockBean
     private ScreenService screenService;
 
-    @DisplayName("상영 등록 - 실패 (movieId 가 null)")
+    @DisplayName("상영 등록 - 실패 (영화명이 null)")
     @Test
     void register_fail_missingName() throws Exception {
         // given
         ScreenRegisterRequest request = ScreenRegisterRequest.builder()
-                .movieId(null)
+                .movieTitle(null)
                 .price(1000L)
                 .startAt(LocalDateTime.now())
-                .endAt(LocalDateTime.now())
                 .build();
 
         // when
@@ -53,10 +52,9 @@ class ScreenControllerTest {
     void register_fail_missingPrice() throws Exception {
         // given
         ScreenRegisterRequest request = ScreenRegisterRequest.builder()
-                .movieId(1L)
+                .movieTitle("리바운드")
                 .price(null)
                 .startAt(LocalDateTime.now())
-                .endAt(LocalDateTime.now())
                 .build();
 
         // when
@@ -74,10 +72,9 @@ class ScreenControllerTest {
     void register_fail_missingStartAt() throws Exception {
         // given
         ScreenRegisterRequest request = ScreenRegisterRequest.builder()
-                .movieId(1L)
+                .movieTitle("리바운드")
                 .price(null)
                 .startAt(null)
-                .endAt(LocalDateTime.now())
                 .build();
 
         // when
@@ -94,10 +91,9 @@ class ScreenControllerTest {
     void register_fail_missingEndAt() throws Exception {
         // given
         ScreenRegisterRequest request = ScreenRegisterRequest.builder()
-                .movieId(1L)
+                .movieTitle("리바운드")
                 .price(null)
                 .startAt(LocalDateTime.now())
-                .endAt(null)
                 .build();
 
         // when
@@ -115,10 +111,9 @@ class ScreenControllerTest {
     void register_service_call() throws Exception {
         // given
         ScreenRegisterRequest request = ScreenRegisterRequest.builder()
-                .movieId(1L)
+                .movieTitle("리바운드")
                 .price(1000L)
                 .startAt(LocalDateTime.now())
-                .endAt(LocalDateTime.now())
                 .build();
 
         // when
@@ -136,10 +131,9 @@ class ScreenControllerTest {
     void register_success() throws Exception {
         // given
         ScreenRegisterRequest request = ScreenRegisterRequest.builder()
-                .movieId(1L)
+                .movieTitle("리바운드")
                 .price(1000L)
                 .startAt(LocalDateTime.now())
-                .endAt(LocalDateTime.now())
                 .build();
 
         // when

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
@@ -33,9 +32,6 @@ public class ScreenEntity {
     private Long movieId;
     @Column(name = "price")
     private Long price;
-    @Column(name = "seat_reserved_count")
-    @ColumnDefault("0")
-    private Integer seatReservedCount;
     @Column(name = "start_at")
     private LocalDateTime startAt;
     @Column(name = "end_at")
@@ -43,10 +39,10 @@ public class ScreenEntity {
 
     public void isRegisterAvailable(LocalDateTime insertDate){
         if(this.startAt.isBefore(LocalDateTime.now())){
-            throw new RuntimeException("상영 시작 시간을 과거로 등록 할 수 없습니다.");
+            throw new ScreenRegisterException("상영 시작 시간을 과거로 등록 할 수 없습니다.");
         }
         if(insertDate.toLocalDate().isEqual(LocalDate.now())){
-            throw new RuntimeException("당일 등록한 영화는, 상영시간표에 등록할 수 없습니다.");
+            throw new ScreenRegisterException("당일 등록한 영화는, 상영시간표에 등록할 수 없습니다.");
         }
     }
 }

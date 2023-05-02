@@ -1,14 +1,9 @@
 package com.jwcinema.ticketing.application;
 
-import com.jwcinema.movie.application.MovieService;
-import com.jwcinema.movie.controller.dto.MovieRegisterRequest;
-import com.jwcinema.movie.domain.MovieEntity;
-import com.jwcinema.movie.infra.MovieEntityRepository;
 import com.jwcinema.screen.domain.ScreenEntity;
 import com.jwcinema.screen.infra.ScreenEntityRepository;
 import com.jwcinema.ticketing.controller.dto.TicketingCancelRequest;
 import com.jwcinema.ticketing.controller.dto.TicketingRequest;
-import com.jwcinema.ticketing.domain.Status;
 import com.jwcinema.ticketing.domain.TicketingEntity;
 import com.jwcinema.ticketing.infra.TicketingEntityRepository;
 import org.junit.jupiter.api.DisplayName;
