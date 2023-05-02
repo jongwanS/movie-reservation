@@ -19,6 +19,15 @@ public class OrderDiscountRequest {
         if(ObjectUtils.isEmpty(date)){
             throw new Exception("date는 필수값입니다.");
         }
+        if(date.isBefore(LocalDate.now())){
+            throw new Exception("date는 과거로 등록할 수 없습니다.");
+        }
+        if(ObjectUtils.isEmpty(dayOfOrder)){
+            throw new Exception("dayOfOrder 값은 필수잆니다.");
+        }
+        if(dayOfOrder <= 0){
+            throw new Exception("dayOfOrder 값은 0 또는 음수가 될 수 없습니다.");
+        }
         if(ObjectUtils.isEmpty(discount)){
             throw new Exception("discount 값은 필수값입니다.");
         }

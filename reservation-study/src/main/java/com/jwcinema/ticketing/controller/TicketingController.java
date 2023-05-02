@@ -1,14 +1,11 @@
 package com.jwcinema.ticketing.controller;
 
-import com.jwcinema.screen.application.ScreenService;
-import com.jwcinema.screen.controller.ScreenRegisterRequest;
-import com.jwcinema.screen.domain.ScreenEntity;
 import com.jwcinema.ticketing.application.TicketingService;
-import com.jwcinema.ticketing.domain.Ticketing;
+import com.jwcinema.ticketing.controller.dto.TicketingCancelRequest;
+import com.jwcinema.ticketing.controller.dto.TicketingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +20,12 @@ public class TicketingController {
 
     @PostMapping("/reserve")
     public ResponseEntity<?> ticketingReserve(
-            @RequestBody TicketingReserveRequest ticketingReserveRequest
+            @RequestBody TicketingRequest ticketingRequest
     ) {
         try {
-            ticketingReserveRequest.validate();
-            Ticketing ticketing = ticketingService.reserve(ticketingReserveRequest);
-            return ResponseEntity.ok().body(ticketing);
+            ticketingRequest.validate();
+            ticketingService.reserve(ticketingRequest);
+            return ResponseEntity.ok().body("티케팅성공");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -36,13 +33,12 @@ public class TicketingController {
 
     @PostMapping("/cancel")
     public ResponseEntity<?> ticketingCancel(
-            @RequestBody Long ticketingId
+            @RequestBody TicketingCancelRequest ticketingCancelRequest
     ) {
         try {
-            if(ObjectUtils.isEmpty(ticketingId)){
-                throw new Exception("예매정보가 없습니다.");
-            }
-            return ResponseEntity.ok().body(ticketingService.cancel(ticketingId));
+            ticketingCancelRequest.validate();
+            ticketingService.cancel(ticketingCancelRequest.getTicketingId());
+            return ResponseEntity.ok().body("티케팅 취소 성공");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
