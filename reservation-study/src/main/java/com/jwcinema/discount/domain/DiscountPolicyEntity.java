@@ -28,7 +28,7 @@ public class DiscountPolicyEntity {
     @Column(name = "type")
     private String type;
     @Column(name = "rate")
-    private String rate;
+    private Integer rate;
     @Column(name = "price")
     private Long price;
 }

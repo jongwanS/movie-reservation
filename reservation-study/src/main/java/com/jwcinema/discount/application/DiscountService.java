@@ -1,13 +1,9 @@
 package com.jwcinema.discount.application;
 
-import com.jwcinema.discount.controller.OrderDiscountRequest;
-import com.jwcinema.discount.controller.PeriodDiscountRequest;
-import com.jwcinema.discount.domain.DiscountPolicyEntity;
-import com.jwcinema.discount.domain.OrderDiscountEntity;
-import com.jwcinema.discount.domain.PeriodDiscountEntity;
+import com.jwcinema.discount.controller.dto.OrderDiscountRequest;
+import com.jwcinema.discount.domain.*;
 import com.jwcinema.discount.infra.DiscountPolicyEntityRepository;
 import com.jwcinema.discount.infra.OrderDiscountEntityRepository;
-import com.jwcinema.discount.infra.PeriodDiscountEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,54 +11,41 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DiscountService {
 
-    private final PeriodDiscountEntityRepository periodDiscountEntityRepository;
     private final OrderDiscountEntityRepository orderDiscountEntityRepository;
     private final DiscountPolicyEntityRepository discountPolicyEntityRepository;
 
-    public void register(PeriodDiscountRequest periodDiscountRequest) throws Exception {
-        PeriodDiscountEntity periodDiscount = periodDiscountEntityRepository.save(
-                PeriodDiscountEntity.builder()
-                    .startAt(periodDiscountRequest.getStartAt())
-                    .endAt(periodDiscountRequest.getEndAt())
-                    .build());
-        if(periodDiscount == null){
-            throw new Exception("기간 할인 등록 실패");
-        }
+    public OrderDiscount register(OrderDiscountRequest orderDiscountRequest) throws Exception {
+        orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder
+                (orderDiscountRequest.getDate(), orderDiscountRequest.getDayOfOrder()).ifPresent(entity -> {
+                    throw new DuplicateOrderDiscountException("중복된 순서할인이 이미 존재합니다.");
+                });
 
-        DiscountPolicyEntity discountPolicy = discountPolicyEntityRepository.save(
+        OrderDiscountEntity orderDiscountEntity = OrderDiscountEntity.builder()
+                .discountDate(orderDiscountRequest.getDate())
+                .dayOfOrder(orderDiscountRequest.getDayOfOrder())
+                .build();
+        OrderDiscountEntity savedDiscountEntity = orderDiscountEntityRepository.save(orderDiscountEntity);
+
+
+        DiscountPolicyEntity savedDiscountPolicy = discountPolicyEntityRepository.save(
                 DiscountPolicyEntity.builder()
-                        .discountId(periodDiscount.getId())
-                        .type(periodDiscountRequest.getDiscount().getType())
-                        .rate(periodDiscountRequest.getDiscount().getRate())
-                        .price(periodDiscountRequest.getDiscount().getPrice())
+                        .discountId(savedDiscountEntity.getId())
+                        .type(orderDiscountRequest.getPolicy().getType())
+                        .rate(orderDiscountRequest.getPolicy().getRate())
+                        .price(orderDiscountRequest.getPolicy().getPrice())
                         .build()
         );
-        if(discountPolicy == null){
-            throw new Exception("기간 할인 '정책' 등록 실패");
-        }
 
-    }
-
-    public void register(OrderDiscountRequest orderDiscountRequest) throws Exception {
-        OrderDiscountEntity orderDiscount = orderDiscountEntityRepository.save(
-                OrderDiscountEntity.builder()
-                        .date(orderDiscountRequest.getDate())
-                        .dayOfOrder(orderDiscountRequest.getDayOfOrder())
-                        .build());
-        if(orderDiscount == null){
-            throw new Exception("순번 할인 등록 실패");
-        }
-
-        DiscountPolicyEntity discountPolicy = discountPolicyEntityRepository.save(
-                DiscountPolicyEntity.builder()
-                        .discountId(orderDiscount.getId())
-                        .type(orderDiscountRequest.getDiscount().getType())
-                        .rate(orderDiscountRequest.getDiscount().getRate())
-                        .price(orderDiscountRequest.getDiscount().getPrice())
-                        .build()
-        );
-        if(discountPolicy == null){
-            throw new Exception("기간 할인 '정책' 등록 실패");
-        }
+        return OrderDiscount.builder()
+                .date(savedDiscountEntity.getDiscountDate())
+                .dayOfOrder(savedDiscountEntity.getDayOfOrder())
+                .policy(
+                        DiscountPolicy.builder()
+                                .price(savedDiscountPolicy.getPrice())
+                                .rate(savedDiscountPolicy.getRate())
+                                .type(savedDiscountPolicy.getType())
+                                .build()
+                )
+                .build();
     }
 }

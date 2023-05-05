@@ -1,4 +1,4 @@
-package com.jwcinema.discount.controller;
+package com.jwcinema.discount.controller.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -8,6 +8,7 @@ import org.springframework.util.ObjectUtils;
 import java.time.LocalDateTime;
 
 @Getter
+@Deprecated
 public class PeriodDiscountRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime startAt;
