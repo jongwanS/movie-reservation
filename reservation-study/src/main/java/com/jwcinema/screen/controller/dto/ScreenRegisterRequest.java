@@ -1,6 +1,7 @@
 package com.jwcinema.screen.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jwcinema.common.InvalidParameterException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,15 +21,15 @@ public class ScreenRegisterRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime startAt;
 
-    public void validate() throws Exception {
+    public void validate() {
         if(ObjectUtils.isEmpty(movieTitle)){
-            throw new ScreenRegisterException("movieId 는 필수값");
+            throw new InvalidParameterException("movieId 는 필수값");
         }
         if(ObjectUtils.isEmpty(price)){
-            throw new ScreenRegisterException("price 는 필수값");
+            throw new InvalidParameterException("price 는 필수값");
         }
         if(ObjectUtils.isEmpty(startAt)){
-            throw new ScreenRegisterException("startAt 는 필수값");
+            throw new InvalidParameterException("startAt 는 필수값");
         }
     }
 }

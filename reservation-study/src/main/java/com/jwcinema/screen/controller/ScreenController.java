@@ -22,12 +22,8 @@ public class ScreenController {
     public ResponseEntity<?> screenRegister(
             @RequestBody ScreenRegisterRequest screenRegisterRequest
     ) {
-        try {
-            screenRegisterRequest.validate();
-            Screen screen = screenService.register(screenRegisterRequest);
-            return ResponseEntity.ok().body(screen);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        screenRegisterRequest.validate();
+        Screen screen = screenService.register(screenRegisterRequest);
+        return ResponseEntity.ok().body(screen);
     }
 }

@@ -54,7 +54,7 @@ class DiscountServiceTest {
 
     @Test
     @DisplayName("순서 할인 등록 - 성공")
-    void register_success_order_discount() throws Exception {
+    void register_success_order_discount() {
 
         //given
         OrderDiscountRequest orderDiscountRequest = OrderDiscountRequest.builder()
@@ -62,7 +62,7 @@ class DiscountServiceTest {
                 .dayOfOrder(1)
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.FIX.getValue())
-                        .rate(null)
+                        .rate(0)
                         .price(1000L)
                         .build())
                 .build();

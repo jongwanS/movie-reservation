@@ -16,7 +16,7 @@ public class MovieRegisterRequest {
     private Integer playtime;
     private String description;
 
-    public void validate() throws Exception {
+    public void validate(){
         if(ObjectUtils.isEmpty(title)){
             throw new MovieRegisterException("title 은 필수값");
         }

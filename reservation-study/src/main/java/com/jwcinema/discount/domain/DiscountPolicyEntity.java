@@ -31,4 +31,7 @@ public class DiscountPolicyEntity {
     private Integer rate;
     @Column(name = "price")
     private Long price;
+
+    @OneToOne(mappedBy = "discountPolicy")
+    private OrderDiscountEntity orderDiscount;
 }

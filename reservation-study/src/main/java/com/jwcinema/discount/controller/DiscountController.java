@@ -4,7 +4,6 @@ import com.jwcinema.discount.application.DiscountService;
 import com.jwcinema.discount.controller.dto.OrderDiscountRequest;
 import com.jwcinema.discount.domain.OrderDiscount;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +21,9 @@ public class DiscountController {
     public ResponseEntity<?> order(
             @RequestBody OrderDiscountRequest orderDiscountRequest
     ) {
-        try {
-            orderDiscountRequest.validate();
-            OrderDiscount discount = discountService.register(orderDiscountRequest);
-            return ResponseEntity.ok().body(discount);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        orderDiscountRequest.validate();
+        OrderDiscount discount = discountService.register(orderDiscountRequest);
+        return ResponseEntity.ok().body(discount);
+
     }
 }

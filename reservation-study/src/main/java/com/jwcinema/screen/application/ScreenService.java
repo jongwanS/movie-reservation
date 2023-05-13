@@ -5,6 +5,7 @@ import com.jwcinema.movie.infra.MovieEntityRepository;
 import com.jwcinema.screen.controller.dto.ScreenRegisterRequest;
 import com.jwcinema.screen.domain.Screen;
 import com.jwcinema.screen.domain.ScreenEntity;
+import com.jwcinema.screen.domain.ScreenRegisterException;
 import com.jwcinema.screen.domain.ScreenScheduleExistException;
 import com.jwcinema.screen.infra.ScreenEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,10 @@ public class ScreenService {
     private final MovieEntityRepository movieEntityRepository;
     private final ScreenEntityRepository screenEntityRepository;
 
-    public Screen register(ScreenRegisterRequest screenRegisterRequest) throws Exception {
+    public Screen register(ScreenRegisterRequest screenRegisterRequest) {
 
         MovieEntity movie = movieEntityRepository.findByTitle(screenRegisterRequest.getMovieTitle())
-                .orElseThrow(() -> new RuntimeException(screenRegisterRequest.getMovieTitle()+" 로 등록된 영화가 없습니당 "));
+                .orElseThrow(() -> new ScreenRegisterException(screenRegisterRequest.getMovieTitle()+" 로 등록된 영화가 없습니당 "));
 
         screenEntityRepository.findByStartAtAndEndAt(screenRegisterRequest.getStartAt(),
                 screenRegisterRequest.getStartAt().plusMinutes(movie.getPlaytime())).ifPresent(entity -> {

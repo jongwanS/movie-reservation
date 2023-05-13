@@ -22,12 +22,8 @@ public class MovieController {
     public ResponseEntity<?> movieRegister(
             @RequestBody MovieRegisterRequest movieRegisterRequest
     ) {
-        try {
-            movieRegisterRequest.validate();
-            Movie movie = movieService.register(movieRegisterRequest);
-            return ResponseEntity.ok().body(movie);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        movieRegisterRequest.validate();
+        Movie movie = movieService.register(movieRegisterRequest);
+        return ResponseEntity.ok().body(movie);
     }
 }

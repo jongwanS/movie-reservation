@@ -29,4 +29,8 @@ public class OrderDiscountEntity {
     private Integer dayOfOrder;
     @Column(name = "discount_date")
     private LocalDate discountDate;
+
+    @OneToOne
+    @JoinColumn(name = "discountId")
+    private DiscountPolicyEntity discountPolicy;
 }

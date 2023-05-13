@@ -14,7 +14,7 @@ public class DiscountService {
     private final OrderDiscountEntityRepository orderDiscountEntityRepository;
     private final DiscountPolicyEntityRepository discountPolicyEntityRepository;
 
-    public OrderDiscount register(OrderDiscountRequest orderDiscountRequest) throws Exception {
+    public OrderDiscount register(OrderDiscountRequest orderDiscountRequest) {
         orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder
                 (orderDiscountRequest.getDate(), orderDiscountRequest.getDayOfOrder()).ifPresent(entity -> {
                     throw new DuplicateOrderDiscountException("중복된 순서할인이 이미 존재합니다.");

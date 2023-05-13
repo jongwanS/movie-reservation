@@ -2,17 +2,22 @@ package com.jwcinema.discount.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.jwcinema.common.GlobalExceptionHandler;
 import com.jwcinema.discount.application.DiscountService;
 import com.jwcinema.discount.controller.dto.DiscountPolicyRequest;
 import com.jwcinema.discount.controller.dto.DiscountType;
 import com.jwcinema.discount.controller.dto.OrderDiscountRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 
@@ -101,8 +106,8 @@ class DiscountControllerTest {
                 .dayOfOrder(1)
                 .policy(DiscountPolicyRequest.builder()
                         .type(null)
-                        .rate(null)
-                        .price(null)
+                        .rate(0)
+                        .price(0)
                         .build())
                 .build();
 
@@ -122,8 +127,8 @@ class DiscountControllerTest {
                 .dayOfOrder(1)
                 .policy(DiscountPolicyRequest.builder()
                         .type("UNKNOWN")
-                        .rate(null)
-                        .price(null)
+                        .rate(0)
+                        .price(0)
                         .build())
                 .build();
 
@@ -143,8 +148,8 @@ class DiscountControllerTest {
                 .dayOfOrder(1)
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.RATE.getValue())
-                        .rate(null)
-                        .price(null)
+                        .rate(0)
+                        .price(0)
                         .build())
                 .build();
 
@@ -165,7 +170,7 @@ class DiscountControllerTest {
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.RATE.getValue())
                         .rate(0)
-                        .price(null)
+                        .price(0)
                         .build())
                 .build();
 
@@ -186,7 +191,7 @@ class DiscountControllerTest {
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.RATE.getValue())
                         .rate(100)
-                        .price(null)
+                        .price(0)
                         .build())
                 .build();
 
@@ -198,7 +203,7 @@ class DiscountControllerTest {
         verify(discountService, never()).register(any());
     }
 
-    @DisplayName("할인 등록 - 실패(할인정책 type(정률/정액)이 정액인데, 할인가가 null인경우)")
+    @DisplayName("할인 등록 - 실패(할인정책 type(정률/정액)이 정액인데, 할인가가 0인경우)")
     @Test
     void register_fail_discountPolicy_missing_price() throws Exception {
         OrderDiscountRequest orderDiscountRequest = OrderDiscountRequest.builder()
@@ -206,8 +211,8 @@ class DiscountControllerTest {
                 .dayOfOrder(1)
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.FIX.getValue())
-                        .rate(null)
-                        .price(null)
+                        .rate(0)
+                        .price(0)
                         .build())
                 .build();
 
@@ -227,7 +232,7 @@ class DiscountControllerTest {
                 .dayOfOrder(1)
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.FIX.getValue())
-                        .rate(null)
+                        .rate(0)
                         .price(1000L)
                         .build())
                 .build();
@@ -248,7 +253,7 @@ class DiscountControllerTest {
                 .policy(DiscountPolicyRequest.builder()
                         .type(DiscountType.RATE.getValue())
                         .rate(10)
-                        .price(null)
+                        .price(0)
                         .build())
                 .build();
 
