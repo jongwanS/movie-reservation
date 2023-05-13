@@ -3,6 +3,7 @@ package com.jwcinema.ticketing.controller;
 import com.jwcinema.ticketing.application.TicketingService;
 import com.jwcinema.ticketing.controller.dto.TicketingCancelRequest;
 import com.jwcinema.ticketing.controller.dto.TicketingRequest;
+import com.jwcinema.ticketing.domain.Ticketing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,9 @@ public class TicketingController {
     public ResponseEntity<?> ticketingReserve(
             @RequestBody TicketingRequest ticketingRequest
     ) {
-        try {
-            ticketingRequest.validate();
-            ticketingService.reserve(ticketingRequest);
-            return ResponseEntity.ok().body("티케팅성공");
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        ticketingRequest.validate();
+        Ticketing ticketing = ticketingService.reserve(ticketingRequest);
+        return ResponseEntity.ok().body(ticketing);
     }
 
     @PostMapping("/cancel")

@@ -23,11 +23,17 @@ public class TicketingEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TICKETING_SEQ_GENERATOR")
     private Long id;
+    @Column(name = "ticket_id")
+    private String ticketId;
     @Column(name = "ticket_count")
     private Integer ticketCount;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
+    @Column(name = "price")
+    private Long price;
+    @Column(name = "discount_price")
+    private Long discountPrice;
 
     public void cancel() {
         this.status = Status.CANCEL;

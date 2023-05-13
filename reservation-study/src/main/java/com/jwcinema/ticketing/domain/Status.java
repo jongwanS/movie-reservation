@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Status {
+    PENDING("결제대기"),
     COMPLETE("예매성공"),
     CANCEL("예매취소");
 
