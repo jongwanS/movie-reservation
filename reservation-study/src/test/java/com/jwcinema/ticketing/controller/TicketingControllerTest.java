@@ -164,7 +164,7 @@ class TicketingControllerTest {
         void ticketing_cancel_success() throws Exception {
             // given
             TicketingCancelRequest ticketingCancelRequest = TicketingCancelRequest.builder()
-                    .ticketingId(1L)
+                    .ticketingId("123")
                     .build();
 
             // when

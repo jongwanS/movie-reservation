@@ -37,8 +37,7 @@ public class DiscountService {
         );
 
         return OrderDiscount.builder()
-                .date(savedDiscountEntity.getDiscountDate())
-                .dayOfOrder(savedDiscountEntity.getDayOfOrder())
+                .id(new DiscountId(savedDiscountEntity.getDayOfOrder(), savedDiscountEntity.getDiscountDate()))
                 .policy(
                         DiscountPolicy.builder()
                                 .price(savedDiscountPolicy.getPrice())

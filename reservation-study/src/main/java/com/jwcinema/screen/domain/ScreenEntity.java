@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
         allocationSize = 1
 )
 @Getter
-@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +36,17 @@ public class ScreenEntity {
     @Column(name = "end_at")
     private LocalDateTime endAt;
 
-    public void isRegisterAvailable(LocalDateTime insertDate){
+
+    @Builder
+    public ScreenEntity(Long movieId, Long price, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime movieInsertDate) {
+        this.movieId = movieId;
+        this.price = price;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        isRegisterAvailable(movieInsertDate);
+    }
+
+    private void isRegisterAvailable(LocalDateTime insertDate){
         if(this.startAt.isBefore(LocalDateTime.now())){
             throw new ScreenRegisterException("상영 시작 시간을 과거로 등록 할 수 없습니다.");
         }

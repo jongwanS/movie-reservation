@@ -2,22 +2,17 @@ package com.jwcinema.discount.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jwcinema.common.GlobalExceptionHandler;
 import com.jwcinema.discount.application.DiscountService;
 import com.jwcinema.discount.controller.dto.DiscountPolicyRequest;
 import com.jwcinema.discount.controller.dto.DiscountType;
 import com.jwcinema.discount.controller.dto.OrderDiscountRequest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 

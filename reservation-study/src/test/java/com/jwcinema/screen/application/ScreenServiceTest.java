@@ -119,7 +119,7 @@ class ScreenServiceTest {
 
     @Test
     @DisplayName("상영정보 등록 - 성공")
-    void register_success() throws Exception {
+    void register_success() {
         ScreenRegisterRequest screenRegisterRequest = ScreenRegisterRequest.builder()
                 .movieTitle("리바운드")
                 .price(3000L)
@@ -135,6 +135,8 @@ class ScreenServiceTest {
                 .build();
         ScreenEntity screen = ScreenEntity.builder()
                 .movieId(savedEntity.getId())
+                .startAt(screenRegisterRequest.getStartAt())
+                .movieInsertDate(savedEntity.getInsertDate())
                 .build();
         when(movieEntityRepository.findByTitle(savedEntity.getTitle())).thenReturn(Optional.of(savedEntity));
         when(screenEntityRepository.findByStartAtAndEndAt(any(),any())).thenReturn(Optional.empty());

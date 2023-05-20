@@ -30,10 +30,10 @@ public class TicketingEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Column(name = "price")
-    private Long price;
+    @Column(name = "payment_price")
+    private double paymentPrice;
     @Column(name = "discount_price")
-    private Long discountPrice;
+    private double discountPrice;
 
     public void cancel() {
         this.status = Status.CANCEL;

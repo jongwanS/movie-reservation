@@ -12,7 +12,7 @@ import org.springframework.util.ObjectUtils;
 @NoArgsConstructor
 public class TicketingCancelRequest {
 
-    private Long ticketingId;
+    private String ticketingId;
 
     public void validate() throws Exception {
         if(ObjectUtils.isEmpty(ticketingId)){

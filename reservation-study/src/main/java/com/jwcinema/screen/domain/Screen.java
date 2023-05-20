@@ -13,8 +13,8 @@ public class Screen {
     private String movieTitle;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-
     private Long price;
+    private Integer dayOfOrder;
 
     @Override
     public boolean equals(Object o) {

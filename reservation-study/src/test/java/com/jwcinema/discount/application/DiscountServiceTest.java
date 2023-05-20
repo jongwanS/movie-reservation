@@ -3,9 +3,7 @@ package com.jwcinema.discount.application;
 import com.jwcinema.discount.controller.dto.DiscountPolicyRequest;
 import com.jwcinema.discount.controller.dto.DiscountType;
 import com.jwcinema.discount.controller.dto.OrderDiscountRequest;
-import com.jwcinema.discount.domain.DiscountPolicyEntity;
-import com.jwcinema.discount.domain.DuplicateOrderDiscountException;
-import com.jwcinema.discount.domain.OrderDiscountEntity;
+import com.jwcinema.discount.domain.*;
 import com.jwcinema.discount.infra.DiscountPolicyEntityRepository;
 import com.jwcinema.discount.infra.OrderDiscountEntityRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +22,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DiscountServiceTest {
+
     @Mock
     private OrderDiscountEntityRepository orderDiscountEntityRepository;
 
@@ -41,13 +40,18 @@ class DiscountServiceTest {
                 .date(LocalDate.now())
                 .build();
 
-        OrderDiscountEntity savedOrderDiscount = OrderDiscountEntity.builder()
-                .dayOfOrder(orderDiscountRequest.getDayOfOrder())
-                .discountDate(orderDiscountRequest.getDate())
-                .build();
+        Optional<OrderDiscount> orderDiscount = Optional.ofNullable(OrderDiscount.builder()
+                .id(new DiscountId(1, LocalDate.now()))
+                .policy(
+                        DiscountPolicy.builder()
+                                .type(com.jwcinema.ticketing.domain.DiscountType.FIX.getValue())
+                                .price(500L)
+                                .build()
+                )
+                .build());
 
         when(orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder(any(),any()))
-                .thenReturn(Optional.ofNullable(savedOrderDiscount));
+                .thenReturn(orderDiscount);
         assertThrows(DuplicateOrderDiscountException.class, () -> discountService.register(orderDiscountRequest));
         verify(orderDiscountEntityRepository,times(1)).findByDiscountDateAndDayOfOrder(any(),any());
     }

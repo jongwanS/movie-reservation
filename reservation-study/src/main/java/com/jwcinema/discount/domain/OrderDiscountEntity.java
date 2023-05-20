@@ -32,5 +32,5 @@ public class OrderDiscountEntity {
 
     @OneToOne
     @JoinColumn(name = "discountId")
-    private DiscountPolicyEntity discountPolicy;
+    private DiscountPolicyEntity policy;
 }

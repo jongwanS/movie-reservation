@@ -33,8 +33,8 @@ public class ScreenService {
                 .price(screenRegisterRequest.getPrice())
                 .startAt(screenRegisterRequest.getStartAt())
                 .endAt(screenRegisterRequest.getStartAt().plusMinutes(movie.getPlaytime()))
+                .movieInsertDate(movie.getInsertDate())
                 .build();
-        screenEntity.isRegisterAvailable(movie.getInsertDate());
 
 
         ScreenEntity savedScreenEntity = screenEntityRepository.save(screenEntity);

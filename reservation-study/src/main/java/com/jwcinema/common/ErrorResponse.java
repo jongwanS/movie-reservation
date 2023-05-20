@@ -1,7 +1,6 @@
 package com.jwcinema.common;
 
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
