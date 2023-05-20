@@ -1,4 +1,4 @@
-package com.jwcinema.discount.controller;
+package com.jwcinema.ticketing.domain;
 
 import lombok.Getter;
 
@@ -7,8 +7,8 @@ public enum DiscountType {
     RATE("RATE","정률"),
     FIX("FIX","정액");
 
-    private String value;
-    private String description;
+    private final String value;
+    private final String description;
 
     DiscountType(String value, String description) {
         this.value = value;

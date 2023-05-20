@@ -16,12 +16,12 @@ public class MovieRegisterRequest {
     private Integer playtime;
     private String description;
 
-    public void validate() throws Exception {
+    public void validate(){
         if(ObjectUtils.isEmpty(title)){
-            throw new IllegalArgumentException("title 은 필수값");
+            throw new MovieRegisterException("title 은 필수값");
         }
         if(ObjectUtils.isEmpty(playtime)){
-            throw new IllegalArgumentException("playtime 필수값");
+            throw new MovieRegisterException("playtime 필수값");
         }
     }
 }

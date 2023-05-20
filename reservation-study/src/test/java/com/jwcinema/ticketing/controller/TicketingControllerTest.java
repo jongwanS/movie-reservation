@@ -1,6 +1,7 @@
 package com.jwcinema.ticketing.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jwcinema.ticketing.application.TicketingService;
 import com.jwcinema.ticketing.controller.dto.TicketingCancelRequest;
 import com.jwcinema.ticketing.controller.dto.TicketingRequest;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,55 +31,86 @@ class TicketingControllerTest {
     @Nested
     @DisplayName("티케팅")
     class TicketReserve {
-        @DisplayName("티케팅 - 실패 (screenId 가 null)")
+
+        @DisplayName("티케팅 - 실패 (영화명이 null)")
         @Test
-        void ticketing_fail_missing_screenId() throws Exception {
+        void ticketing_fail_missing_movieTitle() throws Exception {
             // given
             TicketingRequest ticketingRequest = TicketingRequest.builder()
-                    .screenId(null)
+//                    .movieTitle("리바운드")
+                    .phoneNumber("01012341234")
+                    .startAt(LocalDateTime.now())
+                    .endAt(LocalDateTime.now())
                     .ticketCount(3)
                     .build();
 
             // when
             mockMvc.perform(post("/ticketing/reserve")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(ticketingRequest)))
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingRequest)))
                     .andExpect(status().isBadRequest());
 
             // then
             verify(ticketingService, never()).reserve(ticketingRequest);
         }
-        @DisplayName("티케팅 - 실패 (예매 티켓 갯수가 null)")
+        @DisplayName("티케팅 - 실패 (휴대폰 번호가 빈값)")
         @Test
-        void ticketing_fail_missing_ticketCount() throws Exception {
+        void ticketing_fail_missing_screenId() throws Exception {
             // given
             TicketingRequest ticketingRequest = TicketingRequest.builder()
-                    .screenId(1L)
-                    .ticketCount(null)
+                    .movieTitle("리바운드")
+                    .phoneNumber("")
+                    .startAt(LocalDateTime.now())
+                    .endAt(LocalDateTime.now())
+                    .ticketCount(3)
                     .build();
 
             // when
             mockMvc.perform(post("/ticketing/reserve")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(ticketingRequest)))
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingRequest)))
                     .andExpect(status().isBadRequest());
 
             // then
             verify(ticketingService, never()).reserve(ticketingRequest);
         }
-        @DisplayName("티케팅 - 실패 (예매 티켓 갯수가 1개 미만)")
+        @DisplayName("티케팅 - 실패 (예매 티켓 갯수가 0개)")
         @Test
-        void ticketing_fail_zero_ticketCount() throws Exception {
+        void ticketing_fail_missing_ticketCount() throws Exception {
             // given
             TicketingRequest ticketingRequest = TicketingRequest.builder()
-                    .screenId(1L)
+                    .movieTitle("리바운드")
+                    .phoneNumber("01012341234")
+                    .startAt(LocalDateTime.now())
+                    .endAt(LocalDateTime.now())
                     .ticketCount(0)
                     .build();
 
             // when
             mockMvc.perform(post("/ticketing/reserve")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(ticketingRequest)))
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingRequest)))
+                    .andExpect(status().isBadRequest());
+
+            // then
+            verify(ticketingService, never()).reserve(ticketingRequest);
+        }
+        @DisplayName("티케팅 - 실패 (예매 티켓 갯수가 음수)")
+        @Test
+        void ticketing_fail_zero_ticketCount() throws Exception {
+            // given
+            TicketingRequest ticketingRequest = TicketingRequest.builder()
+                    .movieTitle("리바운드")
+                    .phoneNumber("01012341234")
+                    .startAt(LocalDateTime.now())
+                    .endAt(LocalDateTime.now())
+                    .ticketCount(-1)
+                    .build();
+
+            // when
+            mockMvc.perform(post("/ticketing/reserve")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingRequest)))
                     .andExpect(status().isBadRequest());
 
             // then
@@ -87,14 +121,17 @@ class TicketingControllerTest {
         void ticketing_success() throws Exception {
             // given
             TicketingRequest ticketingRequest = TicketingRequest.builder()
-                    .screenId(1L)
-                    .ticketCount(5)
+                    .movieTitle("리바운드")
+                    .phoneNumber("01012341234")
+                    .startAt(LocalDateTime.now())
+                    .endAt(LocalDateTime.now())
+                    .ticketCount(3)
                     .build();
 
             // when
             mockMvc.perform(post("/ticketing/reserve")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(ticketingRequest)))
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingRequest)))
                     .andExpect(status().isOk());
 
             // then
@@ -115,7 +152,7 @@ class TicketingControllerTest {
             // when
             mockMvc.perform(post("/ticketing/cancel")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(ticketingCancelRequest)))
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingCancelRequest)))
                     .andExpect(status().isBadRequest());
 
             // then
@@ -127,13 +164,13 @@ class TicketingControllerTest {
         void ticketing_cancel_success() throws Exception {
             // given
             TicketingCancelRequest ticketingCancelRequest = TicketingCancelRequest.builder()
-                    .ticketingId(1L)
+                    .ticketingId("123")
                     .build();
 
             // when
             mockMvc.perform(post("/ticketing/cancel")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(ticketingCancelRequest)))
+                            .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(ticketingCancelRequest)))
                     .andExpect(status().isOk());
 
             // then
