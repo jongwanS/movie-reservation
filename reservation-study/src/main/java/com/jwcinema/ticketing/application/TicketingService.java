@@ -34,18 +34,17 @@ public class TicketingService {
         //할인을 조회한다.
         Optional<OrderDiscount> orderDiscount = orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder(screen.getStartAt().toLocalDate(), screen.getDayOfOrder());
 
-        long paymentPrice = ticketingRequest.getTicketCount() * screen.getPrice();
-        long calculatedPaymentPrice = orderDiscount
-                .map(discount ->
-                    discount.calculateDiscountPrice(ticketingRequest.getTicketCount(), screen.getPrice())
-                )
-                .orElse(0L);
-
         Ticketing ticketing = Ticketing.builder()
                 .ticketCount(ticketingRequest.getTicketCount())
                 .id(LocalDateTime.now() +"_"+ ticketingRequest.getPhoneNumber())
-                .paymentPrice(paymentPrice)
-                .discountPrice(calculatedPaymentPrice)
+                .paymentPrice(ticketingRequest.getTicketCount() * screen.getPrice())
+                .discountPrice(
+                        orderDiscount
+                        .map(discount ->
+                                discount.calculateDiscountPrice(ticketingRequest.getTicketCount(), screen.getPrice())
+                        )
+                        .orElse(0L)
+                )
                 .status(Status.PENDING)
                 .build();
 
