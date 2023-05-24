@@ -1,6 +1,7 @@
 package com.jwcinema.ticketing.domain;
 
 
+import com.jwcinema.common.event.Events;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,6 +22,7 @@ public class Ticketing {
         //순서가 바뀌면 데이터가 꼬임
         this.paymentPrice = guaranteeMinPrice(truncateWon(paymentPrice - discountPrice));
         this.discountPrice = paymentPrice - this.paymentPrice;
+        Events.raise(new TicketingPaymentEvent(id, paymentPrice));
     }
 
     private double guaranteeMinPrice(double paymentPrice) {
@@ -34,6 +36,12 @@ public class Ticketing {
     }
 
     public void cancel() {
+        verifyCompleteStatus();
         this.status = Status.CANCEL;
+    }
+
+    private void verifyCompleteStatus() {
+        if(this.status != Status.COMPLETE)
+            throw new RuntimeException("취소 불가상태 입니다");
     }
 }
