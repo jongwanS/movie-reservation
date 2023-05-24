@@ -18,6 +18,7 @@ public class Ticketing {
         this.id = id;
         this.ticketCount = ticketCount;
         this.status = status;
+        //순서가 바뀌면 데이터가 꼬임
         this.paymentPrice = guaranteeMinPrice(truncateWon(paymentPrice - discountPrice));
         this.discountPrice = paymentPrice - this.paymentPrice;
     }
