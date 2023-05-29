@@ -34,18 +34,17 @@ public class TicketingService {
         //할인을 조회한다.
         Optional<OrderDiscount> orderDiscount = orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder(screen.getStartAt().toLocalDate(), screen.getDayOfOrder());
 
-        long paymentPrice = ticketingRequest.getTicketCount() * screen.getPrice();
-        long calculatedPaymentPrice = orderDiscount
-                .map(discount ->
-                    discount.calculateDiscountPrice(ticketingRequest.getTicketCount(), screen.getPrice())
-                )
-                .orElse(0L);
-
         Ticketing ticketing = Ticketing.builder()
                 .ticketCount(ticketingRequest.getTicketCount())
                 .id(LocalDateTime.now() +"_"+ ticketingRequest.getPhoneNumber())
-                .paymentPrice(paymentPrice)
-                .discountPrice(calculatedPaymentPrice)
+                .paymentPrice(ticketingRequest.getTicketCount() * screen.getPrice())
+                .discountPrice(
+                        orderDiscount
+                        .map(discount ->
+                                discount.calculateDiscountPrice(ticketingRequest.getTicketCount(), screen.getPrice())
+                        )
+                        .orElse(0L)
+                )
                 .status(Status.PENDING)
                 .build();
 
@@ -67,49 +66,4 @@ public class TicketingService {
                 .orElseThrow(() -> new RuntimeException(ticketingId + " 로 등록된 티켓정보가 없습니다"));
         ticketing.cancel();
     }
-
-    /**
-     * 오늘날짜의 순번 할인을 구한다.
-     *
-     * @param dayOfOrder
-     * @param startAt
-     * @return
-     */
-//    private OrderDiscount getOrderDiscount(Integer dayOfOrder, LocalDateTime startAt) {
-//        Optional<OrderDiscountEntity> orderDiscountEntity = orderDiscountEntityRepository
-//                .findByDiscountDateAndDayOfOrder(startAt.toLocalDate(), dayOfOrder);
-//
-//        if(!orderDiscountEntity.isPresent()){
-//            return OrderDiscount.builder().build();
-//        }
-//
-//        OrderDiscount orderDiscount = OrderDiscount.builder()
-//                .dayOfOrder(orderDiscountEntity.get().getDayOfOrder())
-//                .date(orderDiscountEntity.get().getDiscountDate())
-//                .type(orderDiscountEntity.get().getDiscountPolicy().getType())
-//                .rate(orderDiscountEntity.get().getDiscountPolicy().getRate())
-//                .price(orderDiscountEntity.get().getDiscountPolicy().getPrice())
-//                .build();
-//        return orderDiscount;
-//    }
-//
-//    /**
-//     * 티켓팅 하려는 영화의 순번을 구한다.
-//     * @param screenEntities
-//     * @param screen
-//     * @return
-//     */
-//    private Integer getTodayMovieOrder(List<ScreenEntity> screenEntities, Screen screen) {
-//        Integer dayOfOrder = 1;
-//        for (int i = 0; i< screenEntities.size(); i++){
-//            if(screen.getMovieTitle().equals(screen.getMovieTitle())
-//                && screen.getStartAt().equals(screen.getStartAt())
-//                && screen.getEndAt().equals(screen.getEndAt())
-//            ){
-//                return dayOfOrder+i;
-//            }
-//        }
-//        return 0;
-//    }
-//
 }
