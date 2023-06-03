@@ -20,31 +20,18 @@ public class DiscountService {
                     throw new DuplicateOrderDiscountException("중복된 순서할인이 이미 존재합니다.");
                 });
 
-        OrderDiscountEntity orderDiscountEntity = OrderDiscountEntity.builder()
-                .discountDate(orderDiscountRequest.getDate())
-                .dayOfOrder(orderDiscountRequest.getDayOfOrder())
-                .build();
-        OrderDiscountEntity savedDiscountEntity = orderDiscountEntityRepository.save(orderDiscountEntity);
-
-
-        DiscountPolicyEntity savedDiscountPolicy = discountPolicyEntityRepository.save(
-                DiscountPolicyEntity.builder()
-                        .discountId(savedDiscountEntity.getId())
-                        .type(orderDiscountRequest.getPolicy().getType())
-                        .rate(orderDiscountRequest.getPolicy().getRate())
+        OrderDiscount orderDiscount = OrderDiscount.builder()
+                .id(new DiscountId(orderDiscountRequest.getDayOfOrder(), orderDiscountRequest.getDate()))
+                .policy(DiscountPolicy.builder()
                         .price(orderDiscountRequest.getPolicy().getPrice())
-                        .build()
-        );
-
-        return OrderDiscount.builder()
-                .id(new DiscountId(savedDiscountEntity.getDayOfOrder(), savedDiscountEntity.getDiscountDate()))
-                .policy(
-                        DiscountPolicy.builder()
-                                .price(savedDiscountPolicy.getPrice())
-                                .rate(savedDiscountPolicy.getRate())
-                                .type(savedDiscountPolicy.getType())
-                                .build()
-                )
+                        .rate(orderDiscountRequest.getPolicy().getRate())
+                        .type(orderDiscountRequest.getPolicy().getType())
+                        .build())
                 .build();
+
+        OrderDiscountEntity discountEntity = orderDiscountEntityRepository.save(orderDiscount.toDiscountEntity());
+        discountPolicyEntityRepository.save(orderDiscount.toPolicyEntity(discountEntity.getId()));
+
+        return orderDiscount;
     }
 }

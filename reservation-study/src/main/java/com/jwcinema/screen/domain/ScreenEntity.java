@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
+@Builder
 @Table(name = "SCREEN")
 public class ScreenEntity {
 
@@ -27,8 +28,8 @@ public class ScreenEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MOVIE_TIMETABLE_SEQ_GENERATOR")
     private Long id;
-    @Column(name = "movie_id")
-    private Long movieId;
+    @Column(name = "movie_title")
+    private String movieTitle;
     @Column(name = "price")
     private Long price;
     @Column(name = "start_at")
@@ -36,22 +37,4 @@ public class ScreenEntity {
     @Column(name = "end_at")
     private LocalDateTime endAt;
 
-
-    @Builder
-    public ScreenEntity(Long movieId, Long price, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime movieInsertDate) {
-        this.movieId = movieId;
-        this.price = price;
-        this.startAt = startAt;
-        this.endAt = endAt;
-        isRegisterAvailable(movieInsertDate);
-    }
-
-    private void isRegisterAvailable(LocalDateTime insertDate){
-        if(this.startAt.isBefore(LocalDateTime.now())){
-            throw new ScreenRegisterException("상영 시작 시간을 과거로 등록 할 수 없습니다.");
-        }
-        if(insertDate.toLocalDate().isEqual(LocalDate.now())){
-            throw new ScreenRegisterException("당일 등록한 영화는, 상영시간표에 등록할 수 없습니다.");
-        }
-    }
 }

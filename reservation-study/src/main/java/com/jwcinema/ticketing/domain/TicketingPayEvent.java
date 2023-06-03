@@ -1,20 +1,15 @@
 package com.jwcinema.ticketing.domain;
 
 
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Builder
+@Getter
 public class TicketingPayEvent {
-    private String id;
-    private double paymentPrice;
-
-    public TicketingPayEvent(String id, double paymentPrice) {
-        this.id = id;
-        this.paymentPrice = paymentPrice;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public double getPaymentPrice() {
-        return paymentPrice;
-    }
+    private String ticketId;
+    private double paidPrice;
+    private double discountPrice;
 }

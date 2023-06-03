@@ -20,8 +20,7 @@ public class OrderDiscountRequest {
     private LocalDate date;
 
     private Integer dayOfOrder;
-    @Builder.Default
-    private DiscountPolicyRequest policy = DiscountPolicyRequest.builder().build();
+    private DiscountPolicyRequest policy;
 
     public void validate(){
         if(ObjectUtils.isEmpty(date)){

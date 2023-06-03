@@ -23,6 +23,8 @@ public class DiscountPolicyEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DISCOUNT_POLICY_SEQ_GENERATOR")
     private Long id;
+//    @EmbeddedId
+//    private DiscountId discountId;
     @Column(name = "discount_id")
     private Long discountId;
     @Column(name = "type")

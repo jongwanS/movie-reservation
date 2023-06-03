@@ -21,13 +21,12 @@ public class MovieService {
         movieEntityRepository.findByTitle(movieRegisterRequest.getTitle()).ifPresent(entity -> {
             throw new MovieAlreadyExistException("이미 존재하는 영화입니다.");
         });
-        MovieEntity movie = MovieEntity.builder()
+        Movie movie = Movie.builder()
                 .title(movieRegisterRequest.getTitle())
                 .playtime(movieRegisterRequest.getPlaytime())
                 .description(movieRegisterRequest.getDescription())
-                .insertDate(LocalDateTime.now())
                 .build();
-
-        return movieEntityRepository.save(movie).toMovie();
+        movieEntityRepository.save(movie.toEntity());
+        return movie;
     }
 }

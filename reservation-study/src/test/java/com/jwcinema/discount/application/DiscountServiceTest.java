@@ -40,18 +40,18 @@ class DiscountServiceTest {
                 .date(LocalDate.now())
                 .build();
 
-        Optional<OrderDiscount> orderDiscount = Optional.ofNullable(OrderDiscount.builder()
+        OrderDiscount orderDiscount = OrderDiscount.builder()
                 .id(new DiscountId(1, LocalDate.now()))
                 .policy(
                         DiscountPolicy.builder()
-                                .type(com.jwcinema.ticketing.domain.DiscountType.FIX.getValue())
+                                .type(DiscountType.FIX.getValue())
                                 .price(500L)
                                 .build()
                 )
-                .build());
+                .build();
 
-        when(orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder(any(),any()))
-                .thenReturn(orderDiscount);
+        when(orderDiscountEntityRepository.findOrderDiscount(any(),any()))
+                .thenReturn(Optional.ofNullable(orderDiscount));
         assertThrows(DuplicateOrderDiscountException.class, () -> discountService.register(orderDiscountRequest));
         verify(orderDiscountEntityRepository,times(1)).findByDiscountDateAndDayOfOrder(any(),any());
     }

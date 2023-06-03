@@ -33,12 +33,4 @@ public class MovieEntity {
     private String description;
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
-
-    public Movie toMovie() {
-        return Movie.builder()
-                .title(this.title)
-                .playtime(this.playtime)
-                .description(this.description)
-                .build();
-    }
 }

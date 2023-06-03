@@ -1,15 +1,22 @@
 package com.jwcinema.discount.domain;
 
+import jakarta.persistence.Embeddable;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
-public class DiscountId {
+@Embeddable
+@NoArgsConstructor
+public class DiscountId implements Serializable {
     private Integer dayOfOrder;
     private LocalDate date;
 
+    @Builder
     public DiscountId(Integer dayOfOrder, LocalDate date) {
         this.dayOfOrder = dayOfOrder;
         this.date = date;

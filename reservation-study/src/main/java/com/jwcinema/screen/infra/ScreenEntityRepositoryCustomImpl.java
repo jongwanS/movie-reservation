@@ -8,7 +8,9 @@ import java.util.Optional;
 
 @Repository
 public class ScreenEntityRepositoryCustomImpl implements ScreenEntityRepositoryCustom{
+
+    @Override
     public Optional<Screen> selectMovieTitleAndStartAtAndEndAt(String movieTitle, LocalDateTime startAt, LocalDateTime endAt) {
-        return null;
+        return Optional.empty();
     }
 }

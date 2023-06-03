@@ -1,52 +1,56 @@
 package com.jwcinema.ticketing.domain;
 
 
+import com.jwcinema.common.ErrorCode;
+import com.jwcinema.common.InvalidParameterException;
 import com.jwcinema.common.event.Events;
+import com.jwcinema.discount.domain.OrderDiscount;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.util.ObjectUtils;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
+@Builder
 public class Ticketing {
 
     private String id;
     private Integer ticketCount;
-    private Status status;
-    private double paymentPrice;
-    private double discountPrice;
-    private final Integer MIN_PAYMENT_PRICE = 100;
-    @Builder
-    public Ticketing(String id, Integer ticketCount, Status status, double paymentPrice, double discountPrice) {
-        this.id = id;
-        this.ticketCount = ticketCount;
-        this.status = status;
-        //순서가 바뀌면 데이터가 꼬임
-        this.paymentPrice = guaranteeMinPrice(truncateWon(paymentPrice - discountPrice));
-        this.discountPrice = paymentPrice - this.paymentPrice;
-        Events.raise(new TicketingPayEvent(id, paymentPrice));
+
+    public static Ticketing createTicket(String phoneNumber, int ticketCount) {
+        validate(phoneNumber, ticketCount);
+        String id = LocalDateTime.now() +"_"+ phoneNumber;
+        return Ticketing.builder()
+                .id(id)
+                .ticketCount(ticketCount)
+                .build();
     }
 
-    private double guaranteeMinPrice(double paymentPrice) {
-        return paymentPrice < MIN_PAYMENT_PRICE
-                ? MIN_PAYMENT_PRICE
-                : paymentPrice;
+    private static void validate(String movieTitle, int ticketCount) {
+        if(ObjectUtils.isEmpty(movieTitle)){
+            throw new InvalidParameterException(ErrorCode.MOVIE_TITLE_REQUIRED.getMessage());
+        }
+        if(ObjectUtils.isEmpty(ticketCount) || ticketCount < 1){
+            throw new InvalidParameterException(ErrorCode.TICKET_COUNT_REQUIRED.getMessage());
+        }
     }
 
-    private double truncateWon(double paymentPrice){
-        return paymentPrice - (paymentPrice % 10);
+    public TicketingEntity toEntity() {
+        return TicketingEntity.builder()
+                .ticketId(id)
+                .ticketCount(ticketCount)
+                .build();
     }
 
-    public void cancel() {
-        verifyCompleteStatus();
-        this.status = Status.CANCEL;
-        Events.raise(new TicketingCancelEvent(id, paymentPrice));
-    }
+    public void calculateDiscountedPrice(DiscountCalculationService discountCalculationService, long ticketPrice, Optional<OrderDiscount> orderDiscount) {
+        double discountPrice = discountCalculationService.calculateDiscountedPrice(ticketPrice, orderDiscount);
 
-    private void verifyCompleteStatus() {
-        if(this.status != Status.COMPLETE)
-            throw new RuntimeException("취소 불가상태 입니다");
-    }
-
-    public void approve() {
-        this.status = Status.COMPLETE;
+        Events.raise(TicketingPayEvent.builder()
+                .ticketId(this.id)
+                .discountPrice(this.ticketCount*discountPrice)
+                .paidPrice(this.ticketCount * (ticketPrice-discountPrice))
+                .build());
     }
 }
