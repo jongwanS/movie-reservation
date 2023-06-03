@@ -1,19 +1,11 @@
 package com.jwcinema.payment.application;
 
-import com.jwcinema.discount.domain.OrderDiscount;
-import com.jwcinema.discount.domain.OrderDiscountEntity;
-import com.jwcinema.discount.infra.OrderDiscountEntityRepository;
 import com.jwcinema.payment.domain.Payment;
 import com.jwcinema.payment.infra.PaymentEntityRepository;
-import com.jwcinema.screen.infra.ScreenEntityRepository;
 import com.jwcinema.ticketing.domain.TicketingCancelEvent;
 import com.jwcinema.ticketing.domain.TicketingPayEvent;
-import com.jwcinema.ticketing.infra.TicketingEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

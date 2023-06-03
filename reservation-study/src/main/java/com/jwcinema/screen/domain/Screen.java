@@ -1,7 +1,5 @@
 package com.jwcinema.screen.domain;
 
-import com.jwcinema.movie.domain.MovieEntity;
-import com.jwcinema.ticketing.domain.TicketingPayEvent;
 import lombok.Builder;
 import lombok.Getter;
 

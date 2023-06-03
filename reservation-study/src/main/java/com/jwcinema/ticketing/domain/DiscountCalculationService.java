@@ -1,7 +1,6 @@
 package com.jwcinema.ticketing.domain;
 
 import com.jwcinema.discount.domain.OrderDiscount;
-
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

@@ -3,12 +3,9 @@ package com.jwcinema.movie.application;
 import com.jwcinema.movie.controller.dto.MovieRegisterRequest;
 import com.jwcinema.movie.domain.Movie;
 import com.jwcinema.movie.domain.MovieAlreadyExistException;
-import com.jwcinema.movie.domain.MovieEntity;
 import com.jwcinema.movie.infra.MovieEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor

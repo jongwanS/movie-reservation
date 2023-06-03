@@ -1,7 +1,6 @@
 package com.jwcinema.discount.domain;
 
 import com.jwcinema.common.InvalidParameterException;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.util.ObjectUtils;
 
@@ -17,14 +16,17 @@ public class OrderDiscount {
         return policy.apply(screenPrice);
     }
 
-    @Builder
+    public static OrderDiscount createDiscount(DiscountId id, DiscountPolicy policy){
+        validate(id, policy);
+        return new OrderDiscount(id,policy);
+    }
+
     public OrderDiscount(DiscountId id, DiscountPolicy policy) {
         this.id = id;
         this.policy = policy;
-        validate();
     }
 
-    private void validate(){
+    private static void validate(DiscountId id, DiscountPolicy policy){
         if(ObjectUtils.isEmpty(id.getDate())){
             throw new InvalidParameterException("date는 필수값입니다.");
         }

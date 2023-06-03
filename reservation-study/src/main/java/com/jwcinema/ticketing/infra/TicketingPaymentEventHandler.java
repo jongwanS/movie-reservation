@@ -1,8 +1,8 @@
 package com.jwcinema.ticketing.infra;
 
+import com.jwcinema.payment.application.PaymentService;
 import com.jwcinema.ticketing.domain.TicketingCancelEvent;
 import com.jwcinema.ticketing.domain.TicketingPayEvent;
-import com.jwcinema.payment.application.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

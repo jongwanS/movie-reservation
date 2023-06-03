@@ -25,10 +25,10 @@ public class Movie {
 
     @Builder
     public Movie(String title, Integer playtime, String description) {
+        validate();
         this.title = title;
         this.playtime = playtime;
         this.description = description;
-        validate();
     }
 
 

@@ -1,11 +1,9 @@
 package com.jwcinema.screen.infra;
 
-import com.jwcinema.movie.domain.MovieEntity;
 import com.jwcinema.movie.infra.MovieEntityRepository;
 import com.jwcinema.screen.domain.ScreenEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 

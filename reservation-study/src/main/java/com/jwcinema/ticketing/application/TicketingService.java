@@ -1,12 +1,13 @@
 package com.jwcinema.ticketing.application;
 
-import com.jwcinema.discount.domain.OrderDiscount;
 import com.jwcinema.discount.domain.OrderDiscountEntity;
 import com.jwcinema.discount.infra.OrderDiscountEntityRepository;
 import com.jwcinema.screen.domain.Screen;
 import com.jwcinema.screen.infra.ScreenEntityRepository;
 import com.jwcinema.ticketing.controller.dto.TicketingRequest;
-import com.jwcinema.ticketing.domain.*;
+import com.jwcinema.ticketing.domain.DiscountCalculationService;
+import com.jwcinema.ticketing.domain.ScreenScheduleNotExistException;
+import com.jwcinema.ticketing.domain.Ticketing;
 import com.jwcinema.ticketing.infra.TicketingEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,6 @@ public class TicketingService {
         Screen screen = screenEntityRepository.selectMovieTitleAndStartAtAndEndAt(
                         ticketingRequest.getMovieTitle(),ticketingRequest.getStartAt(),ticketingRequest.getEndAt())
                 .orElseThrow(() -> new ScreenScheduleNotExistException(ticketingRequest.getMovieTitle() +" 로 등록된 상영정보 없습니다"));
-
-
 
         int dayOfOrder = screenEntityRepository.findDayOfOrder(screen.getMovieTitle(), screen.getStartAt(),screen.getEndAt(), screen.getStartAt().toLocalDate());
         Optional<OrderDiscountEntity> orderDiscountEntity = orderDiscountEntityRepository.findByDiscountDateAndDayOfOrder(screen.getStartAt().toLocalDate(), dayOfOrder);

@@ -1,13 +1,5 @@
 package com.jwcinema.discount.infra;
 
-import com.jwcinema.discount.domain.OrderDiscount;
-import com.jwcinema.discount.domain.OrderDiscountEntity;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.time.LocalDate;
-import java.util.Optional;
-
 public interface OrderDiscountEntityRepositoryCustom {
 //    @Query("SELECT new com.jwcinema.discount.domain.OrderDiscount(od.policy.type, od.policy.rate, od.policy.price) " +
 //            "FROM OrderDiscountEntity od JOIN od.policy p " +

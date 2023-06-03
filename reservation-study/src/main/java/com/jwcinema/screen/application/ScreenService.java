@@ -4,7 +4,6 @@ import com.jwcinema.movie.domain.MovieEntity;
 import com.jwcinema.movie.infra.MovieEntityRepository;
 import com.jwcinema.screen.controller.dto.ScreenRegisterRequest;
 import com.jwcinema.screen.domain.Screen;
-import com.jwcinema.screen.domain.ScreenEntity;
 import com.jwcinema.screen.domain.ScreenRegisterException;
 import com.jwcinema.screen.domain.ScreenScheduleExistException;
 import com.jwcinema.screen.infra.ScreenEntityRepository;

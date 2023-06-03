@@ -20,14 +20,14 @@ public class DiscountService {
                     throw new DuplicateOrderDiscountException("중복된 순서할인이 이미 존재합니다.");
                 });
 
-        OrderDiscount orderDiscount = OrderDiscount.builder()
-                .id(new DiscountId(orderDiscountRequest.getDayOfOrder(), orderDiscountRequest.getDate()))
-                .policy(DiscountPolicy.builder()
+        OrderDiscount orderDiscount = OrderDiscount.createDiscount(
+                new DiscountId(orderDiscountRequest.getDayOfOrder(), orderDiscountRequest.getDate())
+                ,DiscountPolicy.builder()
                         .price(orderDiscountRequest.getPolicy().getPrice())
                         .rate(orderDiscountRequest.getPolicy().getRate())
                         .type(orderDiscountRequest.getPolicy().getType())
-                        .build())
-                .build();
+                        .build()
+        );
 
         OrderDiscountEntity discountEntity = orderDiscountEntityRepository.save(orderDiscount.toDiscountEntity());
         discountPolicyEntityRepository.save(orderDiscount.toPolicyEntity(discountEntity.getId()));

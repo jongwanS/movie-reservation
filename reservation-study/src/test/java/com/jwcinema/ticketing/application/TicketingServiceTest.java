@@ -1,16 +1,10 @@
 package com.jwcinema.ticketing.application;
 
-import com.jwcinema.discount.domain.DiscountId;
-import com.jwcinema.discount.domain.DiscountPolicy;
-import com.jwcinema.discount.domain.OrderDiscount;
 import com.jwcinema.discount.infra.OrderDiscountEntityRepository;
-import com.jwcinema.screen.domain.Screen;
 import com.jwcinema.screen.infra.ScreenEntityRepository;
 import com.jwcinema.ticketing.controller.dto.TicketingRequest;
-import com.jwcinema.ticketing.domain.*;
+import com.jwcinema.ticketing.domain.ScreenScheduleNotExistException;
 import com.jwcinema.ticketing.infra.TicketingEntityRepository;
-import com.jwcinema.payment.domain.Status;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,9 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
