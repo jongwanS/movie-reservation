@@ -23,7 +23,7 @@ public class ScreenRegisterRequest {
 
     public void validate() {
         if(ObjectUtils.isEmpty(movieTitle)){
-            throw new InvalidParameterException("movieId 는 필수값");
+            throw new InvalidParameterException("movieTitle 는 필수값");
         }
         if(ObjectUtils.isEmpty(price)){
             throw new InvalidParameterException("price 는 필수값");

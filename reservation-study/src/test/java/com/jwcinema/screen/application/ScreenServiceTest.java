@@ -134,9 +134,9 @@ class ScreenServiceTest {
                 .insertDate(LocalDateTime.now().minusDays(1))
                 .build();
         ScreenEntity screen = ScreenEntity.builder()
-                .movieId(savedEntity.getId())
+                .movieTitle(savedEntity.getTitle())
                 .startAt(screenRegisterRequest.getStartAt())
-                .movieInsertDate(savedEntity.getInsertDate())
+                .endAt(savedEntity.getInsertDate())
                 .build();
         when(movieEntityRepository.findByTitle(savedEntity.getTitle())).thenReturn(Optional.of(savedEntity));
         when(screenEntityRepository.findByStartAtAndEndAt(any(),any())).thenReturn(Optional.empty());

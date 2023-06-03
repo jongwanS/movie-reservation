@@ -1,4 +1,4 @@
-package com.jwcinema.ticketing.domain;
+package com.jwcinema.payment.domain;
 
 import lombok.Getter;
 

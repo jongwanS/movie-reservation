@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @SequenceGenerator(
         name = "ORDER_DISCOUNT_SEQ_GENERATOR",
@@ -31,6 +32,18 @@ public class OrderDiscountEntity {
     private LocalDate discountDate;
 
     @OneToOne
-    @JoinColumn(name = "discountId")
+    @JoinColumn(name = "id")
     private DiscountPolicyEntity policy;
+
+
+    public Optional<OrderDiscount> toOrderDiscount(){
+        return Optional.ofNullable(OrderDiscount.builder()
+                .id(new DiscountId(dayOfOrder, discountDate))
+                .policy(DiscountPolicy.builder()
+                        .price(policy.getPrice())
+                        .rate(policy.getRate())
+                        .type(policy.getType())
+                        .build())
+                .build());
+    }
 }
